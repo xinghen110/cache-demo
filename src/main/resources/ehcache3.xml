@@ -1,0 +1,34 @@
+<config xmlns='http://www.ehcache.org/v3'
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+		xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+							http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+	<!-- 定义cache 实例配置 别名是 stocks 用来存储股票代码
+     key 的类型为 string
+     最多允许5000 个 entries（可以理解为5000个key-value 对 ）
+     最多使用500m内存
+     -->
+	<cache alias="stockCache">
+		<resources>
+			<heap>100</heap>
+			<offheap unit="MB">100</offheap>
+		</resources>
+		<jsr107:mbeans enable-statistics="true"/>
+	</cache>
+
+	<!-- 定义一个cache 实例配置 别名是 stocks
+	 key 的类型为 string
+	 最多允许5000 个 entries（可以理解为5000个key-value 对 ）
+	 最多使用500m内存
+	 -->
+	<cache alias="ZSData">
+		<resources>
+			<heap>5000</heap>
+			<offheap unit="MB">500</offheap>
+		</resources>
+		<jsr107:mbeans enable-statistics="true"/>
+	</cache>
+
+
+</config>

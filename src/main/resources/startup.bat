@@ -1,0 +1,1 @@
+java -Djava.rmi.server.hostname=192.168.8.131 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6081 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar ./cache-demo-0.0.1-SNAPSHOT.jar

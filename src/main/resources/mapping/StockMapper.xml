@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiquan.mapper.StockMapper">
+  <resultMap id="BaseResultMap" type="com.qiquan.model.Stock">
+    <id column="symbol" jdbcType="VARCHAR" property="symbol" />
+    <result column="symbol_name" jdbcType="VARCHAR" property="symbolName" />
+    <result column="insure_date" jdbcType="VARCHAR" property="insureDate" />
+    <result column="option_type" jdbcType="VARCHAR" property="optionType" />
+    <result column="price_mode" jdbcType="VARCHAR" property="priceMode" />
+    <result column="offer_price_date" jdbcType="VARCHAR" property="offerPriceDate" />
+    <result column="symbol_prefix" jdbcType="VARCHAR" property="symbolPrefix" />
+    <result column="option_code" jdbcType="VARCHAR" property="optionCode" />
+    <result column="cycle" jdbcType="VARCHAR" property="cycle" />
+    <result column="offer_price" jdbcType="VARCHAR" property="offerPrice" />
+    <result column="expire_date" jdbcType="VARCHAR" property="expireDate" />
+    <result column="exercise_mode" jdbcType="VARCHAR" property="exerciseMode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    symbol, symbol_name, insure_date, option_type, price_mode, offer_price_date, symbol_prefix, 
+    option_code, cycle, offer_price, expire_date, exercise_mode
+  </sql>
+
+  <!-- 获取所有股票代码 -->
+  <select id="selectAllStock" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_stock
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_stock
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_stock
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qiquan.model.Stock">
+    insert into t_stock (symbol, symbol_name, insure_date, 
+      option_type, price_mode, offer_price_date, 
+      symbol_prefix, option_code, cycle, 
+      offer_price, expire_date, exercise_mode
+      )
+    values (#{symbol,jdbcType=VARCHAR}, #{symbolName,jdbcType=VARCHAR}, #{insureDate,jdbcType=VARCHAR}, 
+      #{optionType,jdbcType=VARCHAR}, #{priceMode,jdbcType=VARCHAR}, #{offerPriceDate,jdbcType=VARCHAR}, 
+      #{symbolPrefix,jdbcType=VARCHAR}, #{optionCode,jdbcType=VARCHAR}, #{cycle,jdbcType=VARCHAR}, 
+      #{offerPrice,jdbcType=VARCHAR}, #{expireDate,jdbcType=VARCHAR}, #{exerciseMode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiquan.model.Stock">
+    insert into t_stock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="symbol != null">
+        symbol,
+      </if>
+      <if test="symbolName != null">
+        symbol_name,
+      </if>
+      <if test="insureDate != null">
+        insure_date,
+      </if>
+      <if test="optionType != null">
+        option_type,
+      </if>
+      <if test="priceMode != null">
+        price_mode,
+      </if>
+      <if test="offerPriceDate != null">
+        offer_price_date,
+      </if>
+      <if test="symbolPrefix != null">
+        symbol_prefix,
+      </if>
+      <if test="optionCode != null">
+        option_code,
+      </if>
+      <if test="cycle != null">
+        cycle,
+      </if>
+      <if test="offerPrice != null">
+        offer_price,
+      </if>
+      <if test="expireDate != null">
+        expire_date,
+      </if>
+      <if test="exerciseMode != null">
+        exercise_mode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="symbol != null">
+        #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="symbolName != null">
+        #{symbolName,jdbcType=VARCHAR},
+      </if>
+      <if test="insureDate != null">
+        #{insureDate,jdbcType=VARCHAR},
+      </if>
+      <if test="optionType != null">
+        #{optionType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMode != null">
+        #{priceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPriceDate != null">
+        #{offerPriceDate,jdbcType=VARCHAR},
+      </if>
+      <if test="symbolPrefix != null">
+        #{symbolPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="optionCode != null">
+        #{optionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null">
+        #{cycle,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPrice != null">
+        #{offerPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null">
+        #{expireDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exerciseMode != null">
+        #{exerciseMode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiquan.model.Stock">
+    update t_stock
+    <set>
+      <if test="symbolName != null">
+        symbol_name = #{symbolName,jdbcType=VARCHAR},
+      </if>
+      <if test="insureDate != null">
+        insure_date = #{insureDate,jdbcType=VARCHAR},
+      </if>
+      <if test="optionType != null">
+        option_type = #{optionType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceMode != null">
+        price_mode = #{priceMode,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPriceDate != null">
+        offer_price_date = #{offerPriceDate,jdbcType=VARCHAR},
+      </if>
+      <if test="symbolPrefix != null">
+        symbol_prefix = #{symbolPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="optionCode != null">
+        option_code = #{optionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null">
+        cycle = #{cycle,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPrice != null">
+        offer_price = #{offerPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null">
+        expire_date = #{expireDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exerciseMode != null">
+        exercise_mode = #{exerciseMode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiquan.model.Stock">
+    update t_stock
+    set symbol_name = #{symbolName,jdbcType=VARCHAR},
+      insure_date = #{insureDate,jdbcType=VARCHAR},
+      option_type = #{optionType,jdbcType=VARCHAR},
+      price_mode = #{priceMode,jdbcType=VARCHAR},
+      offer_price_date = #{offerPriceDate,jdbcType=VARCHAR},
+      symbol_prefix = #{symbolPrefix,jdbcType=VARCHAR},
+      option_code = #{optionCode,jdbcType=VARCHAR},
+      cycle = #{cycle,jdbcType=VARCHAR},
+      offer_price = #{offerPrice,jdbcType=VARCHAR},
+      expire_date = #{expireDate,jdbcType=VARCHAR},
+      exercise_mode = #{exerciseMode,jdbcType=VARCHAR}
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </update>
+</mapper>
