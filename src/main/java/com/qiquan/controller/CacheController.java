@@ -6,6 +6,7 @@ import com.qiquan.model.ZSData;
 import com.qiquan.service.StockService;
 import com.qiquan.service.ZSDataService;
 import com.qiquan.utils.ZSDataUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +28,7 @@ public class CacheController {
     private StockJob stockJob;
     private ZSDataUtil zsDataUtil;
 
+    @Autowired
     public CacheController(StockService stockService,
                            ZSDataService zsDataService,
                            StockJob stockJob,
@@ -46,6 +49,17 @@ public class CacheController {
         zsDataService.getZSDate("sz000001,sz000002,sz000003");
         return "success!";
     }
+    @RequestMapping(value = "/test2={code}")
+    public String testZSData(@PathParam("code") String code){
+        zsDataService.getZSDate(code);
+        return "success!";
+    }
+    @RequestMapping(value = "/clear")
+    public void clearZSData(){
+        CacheManager cachemanager = zsDataUtil.getCachemanager();
+        Cache zsData = cachemanager.getCache("ZSData");
+        zsData.clear();
+    }
 
     //每分钟运行一次数据采集任务
     @Scheduled(cron = "0 */1 * * * ?")
@@ -55,8 +69,8 @@ public class CacheController {
         }
     }
 
-    //每天凌晨1点清除缓存数据
-    @Scheduled(cron = "0 00 1 * * ?")
+    //每天凌晨1,2,3点清除缓存数据
+    @Scheduled(cron = "0 0 1,2,3 * * ?")
     public void clearCache(){
         CacheManager cachemanager = zsDataUtil.getCachemanager();
         Cache zsData = cachemanager.getCache("ZSData");
@@ -75,15 +89,9 @@ public class CacheController {
     //判断当前是否是交易时间
     private boolean testTime(){
         Calendar instance = Calendar.getInstance();
-        SimpleDateFormat time = new SimpleDateFormat("hhmm");
+        SimpleDateFormat time = new SimpleDateFormat("HHmm");
         String format = time.format(instance.getTime());
-        int now = 0;
-
-        if(format == null || format.equals("")){
-            return false;
-        }else{
-            now = Integer.parseInt(format);
-        }
+        int now = Integer.parseInt(format);
 
         if(928 < now && now < 1132 ){
             return true;
