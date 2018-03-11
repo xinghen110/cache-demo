@@ -1,0 +1,1 @@
+./jdk1.8.0_162/bin/java -jar cache-demo-0.0.1-SNAPSHOT.jar &
