@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiquan.mapper.LimitedMapper">
+  <resultMap id="BaseResultMap" type="com.qiquan.model.Limited">
+    <id column="symbol" jdbcType="VARCHAR" property="symbol" />
+    <result column="symbolName" jdbcType="VARCHAR" property="symbolname" />
+    <result column="up" jdbcType="VARCHAR" property="up" />
+    <result column="one" jdbcType="VARCHAR" property="one" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="temp" jdbcType="VARCHAR" property="temp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    symbol, symbolName, up, one, date, temp
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_limited
+  </select>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.qiquan.model.Limited">
+    update t_limited
+    set symbolName = #{symbolname,jdbcType=VARCHAR},
+      up = #{up,jdbcType=VARCHAR},
+      one = #{one,jdbcType=VARCHAR},
+      date = #{date,jdbcType=VARCHAR},
+      temp = #{temp,jdbcType=VARCHAR}
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.qiquan.model.Limited">
+    insert into t_limited (symbol, symbolName, up, 
+      one, date, temp)
+    values (#{symbol,jdbcType=VARCHAR}, #{symbolname,jdbcType=VARCHAR}, #{up,jdbcType=VARCHAR}, 
+      #{one,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}, #{temp,jdbcType=VARCHAR})
+  </insert>
+</mapper>
