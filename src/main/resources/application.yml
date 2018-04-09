@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     name: stock
-    url: jdbc:mysql://localhost:3306/yinhe
-    #url: jdbc:mysql://192.168.1.12:3306/huaibeiqiquan
+    #url: jdbc:mysql://localhost:3306/yinhe
+    url: jdbc:mysql://47.52.21.70:3306/yinhe
     username: yinhe
     password: 123456
     # 使用druid数据源
