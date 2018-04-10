@@ -1,13 +1,13 @@
 server:
-  port: 6080
-
+  port: 6070
+logging.file: ./logs/cache.log
 spring:
   datasource:
     name: stock
     #url: jdbc:mysql://localhost:3306/yinhe
     url: jdbc:mysql://47.52.21.70:3306/yinhe
-    username: yinhe
-    password: 123456
+    username: root
+    password: 0484f29a839916d6
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver

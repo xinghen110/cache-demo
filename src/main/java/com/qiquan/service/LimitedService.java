@@ -12,6 +12,11 @@ public interface LimitedService {
     List<Limited> getAll();
 
     /**
+     * 获取所有涨停数据
+     * */
+    Limited getBySymbol(String symbol);
+
+    /**
      * 更新涨停数据
      * */
     Limited update(Limited recode);
@@ -21,4 +26,9 @@ public interface LimitedService {
      * 增加涨停数据
      * */
     Limited insert(Limited recode);
+
+    /**
+     * 增加涨停数据
+     * */
+    Limited delete(Limited recode);
 }

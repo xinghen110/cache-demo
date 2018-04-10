@@ -11,4 +11,8 @@ public interface LimitedMapper {
     List<Limited> selectAll();
 
     int updateByPrimaryKey(Limited record);
+
+    Limited selectBySymbol(String symbol);
+
+    int deleteBySymbol(String symbol);
 }

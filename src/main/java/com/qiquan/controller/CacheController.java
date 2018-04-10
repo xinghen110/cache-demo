@@ -1,8 +1,12 @@
 package com.qiquan.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.qiquan.job.LimitUpJob;
 import com.qiquan.job.StockJob;
+import com.qiquan.model.Limited;
 import com.qiquan.model.ZSData;
+import com.qiquan.service.LimitedService;
 import com.qiquan.service.StockService;
 import com.qiquan.service.ZSDataService;
 import com.qiquan.utils.ZSDataUtil;
@@ -27,16 +31,22 @@ public class CacheController {
     private ZSDataService zsDataService;
     private StockJob stockJob;
     private ZSDataUtil zsDataUtil;
+    private LimitUpJob limitUpJob;
+    private LimitedService limitedService;
 
     @Autowired
     public CacheController(StockService stockService,
                            ZSDataService zsDataService,
                            StockJob stockJob,
-                           ZSDataUtil zsDataUtil) {
+                           ZSDataUtil zsDataUtil,
+                           LimitUpJob limitUpJob,
+                           LimitedService limitedService) {
         this.stockService = stockService;
         this.zsDataService = zsDataService;
         this.stockJob = stockJob;
         this.zsDataUtil = zsDataUtil;
+        this.limitUpJob = limitUpJob;
+        this.limitedService = limitedService;
     }
 
     @RequestMapping(value = "/test")
@@ -69,6 +79,14 @@ public class CacheController {
         }
     }
 
+    //每天下午收盘后处理涨停板、一字板数据
+    @Scheduled(cron = "0 05 0,15 * * ?")
+    public void limitedJob(){
+        CacheManager cachemanager = zsDataUtil.getCachemanager();
+        Cache zsData = cachemanager.getCache("ZSData");
+        limitUpJob.doJob(zsData, stockService.selectAllStock());
+    }
+
     //每天凌晨1,2,3点清除缓存数据
     @Scheduled(cron = "0 0 1,2,3 * * ?")
     public void clearCache(){
@@ -83,7 +101,17 @@ public class CacheController {
         Cache zsData = cachemanager.getCache("ZSData");
         Cache.ValueWrapper wrapper = zsData.get(code);
         List<ZSData> list = (List<ZSData>)wrapper.get();
-        return JSON.toJSONString(list);
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(ZSData.class, "open_price","close_price");
+        return JSON.toJSONString(list, filter);
+    }
+
+    /**
+     * 获取股票涨停板、一字板数据
+     * */
+    @RequestMapping(value = "/getStockUp", produces = {"application/json;charset=UTF-8"})
+    public String getStockUp(){
+        List<Limited> all = limitedService.getAll();
+        return JSON.toJSONString(all);
     }
 
     //判断当前是否是交易时间

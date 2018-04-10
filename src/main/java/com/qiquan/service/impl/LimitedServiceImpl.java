@@ -11,12 +11,21 @@ import java.util.List;
 @Service("limitedService")
 public class LimitedServiceImpl implements LimitedService{
 
+    private final LimitedMapper limitedMapper;
+
     @Autowired
-    private LimitedMapper limitedMapper;
+    public LimitedServiceImpl(LimitedMapper limitedMapper) {
+        this.limitedMapper = limitedMapper;
+    }
 
     @Override
     public List<Limited> getAll() {
         return limitedMapper.selectAll();
+    }
+
+    @Override
+    public Limited getBySymbol(String symbol) {
+        return limitedMapper.selectBySymbol(symbol);
     }
 
     @Override
@@ -28,6 +37,12 @@ public class LimitedServiceImpl implements LimitedService{
     @Override
     public Limited insert(Limited recode) {
         limitedMapper.insert(recode);
+        return recode;
+    }
+
+    @Override
+    public Limited delete(Limited recode) {
+        limitedMapper.deleteBySymbol(recode.getSymbol());
         return recode;
     }
 }

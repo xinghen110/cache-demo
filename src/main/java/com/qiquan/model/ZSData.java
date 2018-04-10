@@ -9,11 +9,18 @@ public class ZSData {
     private String business_amount;     //成交量(股票数量)
     //private String price_rate;          //涨跌幅度
 
+    private String open_price;          //今日开盘价
+    private String close_price;         //昨日收盘价
 
-    public ZSData(String min_time, String last_px, String business_amount) {
+
+    public ZSData(String productCode, String min_time, String last_px,
+                  String business_amount, String open_price, String close_price) {
+        this.productCode = productCode;
         this.min_time = min_time;
         this.last_px = last_px;
         this.business_amount = business_amount;
+        this.open_price = open_price;
+        this.close_price = close_price;
     }
 
     public ZSData() {
@@ -49,5 +56,21 @@ public class ZSData {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public String getOpen_price() {
+        return open_price;
+    }
+
+    public void setOpen_price(String open_price) {
+        this.open_price = open_price;
+    }
+
+    public String getClose_price() {
+        return close_price;
+    }
+
+    public void setClose_price(String close_price) {
+        this.close_price = close_price;
     }
 }

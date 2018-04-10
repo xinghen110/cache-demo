@@ -5,7 +5,9 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service("ZSDataUtil")
@@ -44,6 +46,10 @@ public class ZSDataUtil {
             //System.out.println(zsData.getLast_px());
             //成交的股票数
             zsData.setBusiness_amount(data[8]);
+            //昨日收盘价
+            zsData.setClose_price(data[2]);
+            //今日开盘价
+            zsData.setOpen_price(data[1]);
             //System.out.println(zsData.getBusiness_amount());
             datas.add(zsData);
         }
@@ -90,6 +96,14 @@ public class ZSDataUtil {
             allStock = allStock.substring(3600,allStock.length());
         }
         return list;
+    }
+
+    /**
+     * 获取当天日期
+     * */
+    public static String getToday(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(Calendar.getInstance().getTime());
     }
 
     public static void main(String[] args){

@@ -17,6 +17,12 @@
     <include refid="Base_Column_List" />
     from t_limited
   </select>
+  <select id="selectBySymbol" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_limited
+    where symbol = #{symbol,jdbcType=VARCHAR}
+  </select>
 
 
   <update id="updateByPrimaryKey" parameterType="com.qiquan.model.Limited">
@@ -34,4 +40,7 @@
     values (#{symbol,jdbcType=VARCHAR}, #{symbolname,jdbcType=VARCHAR}, #{up,jdbcType=VARCHAR}, 
       #{one,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}, #{temp,jdbcType=VARCHAR})
   </insert>
+  <delete id="deleteBySymbol" parameterType="String">
+    DELETE FROM t_limited WHERE symbol = #{symbol,jdbcType=VARCHAR}
+  </delete>
 </mapper>
